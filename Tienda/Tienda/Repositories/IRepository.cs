@@ -4,10 +4,10 @@ namespace Tienda.Repositories
 {
     public interface IRepository<TEntity>
     {
-        IEnumerable<TEntity> ObtenerTodos();
-        TEntity ObtenerPorId(int id);
-        void Crear(TEntity entity);
-        void Actualizar(int id, TEntity entity);
-        void Eliminar(TEntity entity);
+        IEnumerable<TEntity> GetAll();
+        TEntity GetById(int id);
+        void Create(TEntity entity);
+        void Update(int id, TEntity entity);
+        void Delete(TEntity entity);
     }
 }

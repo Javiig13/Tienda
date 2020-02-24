@@ -5,62 +5,63 @@ using Tienda.Repositories;
 
 namespace Tienda.Controllers
 {
+    [Route("api/[controller]")]
     public class ProductsController : Controller
     {
-        private readonly IRepository<Product> _repositorio;
+        private readonly IRepository<Product> _repository;
 
-        public ProductsController(IRepository<Product> repositorio)
+        public ProductsController(IRepository<Product> repository)
         {
-            _repositorio = repositorio;
+            _repository = repository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            IEnumerable<Product> productos = _repositorio.ObtenerTodos();
-            return Ok(productos);
+            IEnumerable<Product> products = _repository.GetAll();
+            return Ok(products);
         }
 
-        //[HttpGet]
-        //public IActionResult Get(int id)
-        //{
-        //    Product producto = _repositorio.ObtenerPorId(id);
-
-        //    if (producto == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(producto);
-        //}
-
-        [HttpPost]
-        public IActionResult Post([FromBody]Product producto)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            if (producto == null)
-            {
-                return BadRequest();
-            }
-            _repositorio.Crear(producto);
-            return CreatedAtRoute("Get", new { producto.Id }, producto);
-        }
+            Product product = _repository.GetById(id);
 
-        [HttpPut]
-        public IActionResult Put(int id, [FromBody]Product producto)
-        {
-            Product productoAactualizar = _repositorio.ObtenerPorId(id);
-
-            if (producto == null)
-            {
-                return BadRequest("Customer is null");
-            }
-
-            if (productoAactualizar == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            _repositorio.Actualizar(productoAactualizar.Id, producto);
+            return Ok(product);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]Product product)
+        {
+            if (product == null)
+            {
+                return BadRequest();
+            }
+            _repository.Create(product);
+            return CreatedAtRoute("Get", new { product.Id }, product);
+        }
+
+        [HttpPut]
+        public IActionResult Put(int id, [FromBody]Product product)
+        {
+            Product productToUpdate = _repository.GetById(id);
+
+            if (product == null)
+            {
+                return BadRequest("Product is null");
+            }
+
+            if (productToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            _repository.Update(productToUpdate.Id, product);
             return NotFound();
         }
     }
