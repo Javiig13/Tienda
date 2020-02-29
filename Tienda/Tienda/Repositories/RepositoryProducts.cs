@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tienda.DataAccess;
 using Tienda.Models;
@@ -24,27 +25,27 @@ namespace Tienda.Repositories
             return _dbContext.Products.FirstOrDefault(p => p.Id == id);
         }
 
-        public void Create(Product producto)
+        public void Create(Product product)
         {
-            _dbContext.Products.Add(producto);
+            _dbContext.Products.Add(product);
             _dbContext.SaveChanges();
         }
 
-        public void Update(int id, Product productoNuevo)
+        public void Update(int id, Product newProduct)
         {
-            Product productoAntiguo = _dbContext.Products.FirstOrDefault(p => p.Id == id);
+            Product oldProduct = _dbContext.Products.FirstOrDefault(p => p.Id == id);
 
-            productoAntiguo.Name = productoNuevo.Name;
-            productoAntiguo.Price = productoNuevo.Price;
-            productoAntiguo.Stock = productoNuevo.Stock;
-            productoAntiguo.Image = productoNuevo.Image;
+            oldProduct.Name = newProduct.Name;
+            oldProduct.Price = newProduct.Price;
+            oldProduct.Stock = newProduct.Stock;
+            oldProduct.Image = newProduct.Image;
 
             _dbContext.SaveChanges();
         }
 
-        public void Delete(Product producto)
+        public void Delete(Product product)
         {
-            _dbContext.Products.Remove(producto);
+            _dbContext.Products.Remove(product);
             _dbContext.SaveChanges();
         }
     }

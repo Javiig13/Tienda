@@ -62,7 +62,7 @@ namespace Tienda.Controllers
             }
 
             _repository.Update(productToUpdate.Id, product);
-            return NotFound();
+            return Ok();
         }
     }
 }

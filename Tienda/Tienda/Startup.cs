@@ -23,9 +23,10 @@ namespace Tienda
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase(databaseName: "Tienda"));
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddScoped<IRepository<Product>, RepositoryProducts>(); 
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IRepository<Product>, RepositoryProducts>();
+            services.AddScoped<IRepository<Customer>, RepositoryCustomers>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
