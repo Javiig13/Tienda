@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Tienda.DataAccess;
@@ -12,9 +11,11 @@ namespace Tienda.Controllers
     public class OrdersController : Controller
     {
         private readonly DatabaseContext _dbContext;
-        public OrdersController(DatabaseContext dbContext)
+        private readonly IProductOrdersService _productOrdersService;
+        public OrdersController(DatabaseContext dbContext, IProductOrdersService productOrdersService)
         {
             _dbContext = dbContext;
+            _productOrdersService = productOrdersService;
         }
 
         [HttpGet]
@@ -32,7 +33,7 @@ namespace Tienda.Controllers
                 return BadRequest();
             }
 
-            await ProductOrdersService.CreateAsync(order, _dbContext);
+            await _productOrdersService.CreateAsync(order);
             return CreatedAtRoute("Get", new { order.Id }, order);
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Tienda.DataAccess;
 using Tienda.Models;
 using Tienda.Repositories;
+using Tienda.Services;
 
 namespace Tienda
 {
@@ -27,6 +28,7 @@ namespace Tienda
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IRepository<Product>, RepositoryProducts>();
             services.AddScoped<IRepository<Customer>, RepositoryCustomers>();
+            services.AddScoped<IProductOrdersService, ProductOrdersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
