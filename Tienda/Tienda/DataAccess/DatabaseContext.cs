@@ -10,6 +10,7 @@ namespace Tienda.DataAccess
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<ProductOrder> ProductOrder { get; set; }
+        public virtual DbSet<CartItem> CartItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProductOrder>()
