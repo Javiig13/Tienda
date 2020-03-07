@@ -1,0 +1,88 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #ebedee, #9dd9ff);
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+*:active, *:focus {
+    outline: 0;
+    border: none;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: antiquewhite;
+    border-radius: 15px;
+    width: 100%;
+    max-height: 600px;
+    align-self: center;
+}
+
+h3 {
+    color: #444444de;
+    margin-bottom: 20px;
+}
+
+.login-content {
+    width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.input-custom {
+    background: #ffffff8c;
+    outline: 0;
+    border-radius: 20px;
+    padding: 15px;
+    margin: 10px;
+    width: 300px;
+    font-size: 1rem;
+    height: 32px;
+    border: 2px solid #ffffff8c !important;
+}
+
+.input-custom-submit {
+    background: #009d4ce0;
+    outline: 0;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+    border: 2px solid #009d4ce0;
+    cursor: pointer;
+    height: 40px;
+    color: white;
+    font-weight: bold;
+}
+
+    .input-custom-submit:hover {
+        background-color: #0bd476;
+        border: 2px solid #0bd476;
+    }
+
+.forgot, .register {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+}
+
+    .forgot:hover, .register:hover {
+        text-decoration: underline;
+        color: teal;
+    }

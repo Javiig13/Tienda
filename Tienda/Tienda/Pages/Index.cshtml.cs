@@ -7,7 +7,7 @@ namespace Tienda.Pages
     {
         public ActionResult OnGet()
         {
-            return RedirectToPage("./Market/Market");
+            return RedirectToPage("./Login/Login");
         }
     }
 }

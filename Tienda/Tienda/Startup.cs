@@ -29,6 +29,7 @@ namespace Tienda
             services.AddScoped<IRepository<Product>, RepositoryProducts>();
             services.AddScoped<IRepository<Customer>, RepositoryCustomers>();
             services.AddScoped<IProductOrdersService, ProductOrdersService>();
+            services.AddScoped<IIdentityRepository, RepositoryIdentity>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(c => Cart.GetCart(c));
 

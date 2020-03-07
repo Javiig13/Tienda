@@ -23,6 +23,9 @@ namespace Tienda.DataAccess
                 .HasOne(po => po.Product)
                 .WithMany(o => o.ProductOrders)
                 .HasForeignKey(po => po.ProductId);
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.Username).IsUnique();
         }
     }
 }

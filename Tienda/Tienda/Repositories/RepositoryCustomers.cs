@@ -34,7 +34,7 @@ namespace Tienda.Repositories
         {
             Customer oldCustomer = _dbContext.Customers.FirstOrDefault(p => p.Id == id);
 
-            oldCustomer.Name = newCustomer.Name;
+            oldCustomer.Username = newCustomer.Username;
 
             _dbContext.SaveChanges();
         }

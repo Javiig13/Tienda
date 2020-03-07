@@ -1,0 +1,25 @@
+﻿@page
+@model Tienda.LoginModel
+
+<form method="post">
+    <div class="login-container">
+        <div class="login-content">
+            <div>
+                <h3>Member Login</h3>
+            </div>
+            <div>
+                <input type="text" class="input-custom" placeholder="Username" required name="username"/>
+            </div>
+            <div>
+                <input type="password" class="input-custom" placeholder="Password" required name="password"/>
+            </div>
+            <div>
+                <input type="submit" class="input-custom-submit" value="LOGIN" />
+                <p class="forgot">Forgot Username/Password?</p>
+            </div>
+            <div>
+                <p class="register">Create your Account</p>
+            </div>
+        </div>
+    </div>
+</form>
