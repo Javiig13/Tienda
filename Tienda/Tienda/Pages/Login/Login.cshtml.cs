@@ -15,7 +15,7 @@ namespace Tienda
             _repositoryIdentity = repositoryIdentity;
         }
 
-        public ActionResult OnPost()
+        public IActionResult OnPost()
         {
             var customer = new Customer()
             {
@@ -27,7 +27,7 @@ namespace Tienda
             if (customerReceived != null)
             {
                 HttpContext.Session.SetString("UserSession", customerReceived.Id.ToString());
-                return RedirectToPage("./Index");
+                return RedirectToPage("../Market/Market");
             }
             return BadRequest();
         }

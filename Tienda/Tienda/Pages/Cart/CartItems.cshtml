@@ -1,5 +1,12 @@
 ﻿@page
 @model Tienda.CartItemsModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(HttpContext).RequestToken;
+    }
+}
 <table class="table">
     <thead>
         <tr>
@@ -23,9 +30,32 @@
                     @Html.DisplayFor(modelItem => item.Amount)
                 </td>
                 <td>
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <button type="button" class="btn btn-outline-danger" style="border: none" onclick="RemoveFromCart(@item.Product.Id)">
+                        <i class="fa fa-minus-square-o fa-lg" aria-hidden="true"></i>
+                    </button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script type="text/javascript">
+        function RemoveFromCart(product) {
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                    "RequestVerificationToken": '@GetAntiXsrfRequestToken()'
+                },
+                url: '@Url.Action("RemoveProductFromCart", "Cart")',
+                data: { productId: product},
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (err, scnd) {
+                    alert(err.statusText);
+                }
+            });
+        }
+    </script>
+}

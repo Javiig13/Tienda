@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Tienda.Pages
@@ -7,7 +8,15 @@ namespace Tienda.Pages
     {
         public ActionResult OnGet()
         {
-            return RedirectToPage("./Login/Login");
+            bool isUserLogged = HttpContext.Session.GetString("UserSession") != null;
+            if (isUserLogged)
+            {
+                return RedirectToPage("./Market/Market");
+            }
+            else
+            {
+                return RedirectToPage("./Login/Login");
+            }
         }
     }
 }
