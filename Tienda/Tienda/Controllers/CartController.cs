@@ -38,5 +38,13 @@ namespace Tienda.Controllers
                 _cart.RemoveFromCart(selectedProduct);
             }
         }
+
+        [HttpGet]
+        [IgnoreAntiforgeryToken]
+        public IActionResult ClearCart()
+        {
+            _cart.ClearCart();
+            return RedirectToPage("/Market/Market");
+        }
     }
 }
