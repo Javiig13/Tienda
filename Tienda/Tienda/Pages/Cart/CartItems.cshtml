@@ -45,13 +45,14 @@
                     <td colspan="3">
                         <div style="display: flex;justify-content: space-evenly;">
                             <div>
-                                <button id="search-button" style="width: 260px;background: #FF2E2F;border: none;border-radius: 25px;outline: 0;height: 35px;"
+                                <button style="width: 260px;background: #FF2E2F;border: none;border-radius: 25px;outline: 0;height: 35px;"
                                         onclick="location.href='@Url.Action("ClearCart", "Cart")'">
                                     <p style="margin-top: 6px; color: white; font-weight: 600; font-style: italic;">Clear Cart</p>
                                 </button>
                             </div>
                             <div>
-                                <button id="search-button" style="width: 260px;background: #2C2E2F;border: none;border-radius: 25px;outline: 0;height: 35px;">
+                                <button style="width: 260px;background: #2C2E2F;border: none;border-radius: 25px;outline: 0;height: 35px;"
+                                        onclick="location.href='@Url.Action("CompleteBuy", "Cart")'">
                                     <embed type="image/svg+xml" src="~/fonts/paypal.svg" style="width: 4rem; vertical-align: bottom;" /> <sup style="color:white;">Checkout</sup>
                                 </button>
                             </div>

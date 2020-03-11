@@ -23,28 +23,29 @@ namespace Tienda.Services
             Order toCreate = new Order() { Customer = received, OrderDate = DateTime.UtcNow };
 
             _dbContext.Orders.Add(toCreate);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             order.Products.ToList().ForEach(product =>
             {
-                _dbContext.ProductOrder.Add(new ProductOrder
+                var productOrder = new ProductOrder
                 {
                     OrderId = toCreate.Id,
                     Order = toCreate,
-                    ProductId = product,
-                    Product = _dbContext.Products.FirstOrDefault(p => p.Id == product)
-                });
+                    ProductId = product.Product.Id,
+                    Product = _dbContext.Products.FirstOrDefault(p => p.Id == product.Product.Id),
+                    Amount = product.Amount
+                };
+                _dbContext.ProductOrder.Add(productOrder);
+                UpdateStock(productOrder);
             });
 
-            _dbContext.SaveChanges();
-
-            UpdateStock(toCreate);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void UpdateStock(Order order)
+        public void UpdateStock(ProductOrder order)
         {
-            var productsIds = order.ProductOrders.Select(po => po.ProductId);
-            _dbContext.Products.Where(x => productsIds.Contains(x.Id)).ToList().ForEach(p => p.Stock -= 1);
+            var actualStock = _dbContext.Products.Where(p => p.Id == order.Product.Id).FirstOrDefault().Stock;
+            _dbContext.Products.Where(p => p.Id == order.Product.Id).FirstOrDefault().Stock = actualStock - order.Amount;
             _dbContext.SaveChanges();
         }
     }

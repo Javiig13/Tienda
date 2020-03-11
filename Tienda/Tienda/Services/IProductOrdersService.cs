@@ -8,6 +8,6 @@ namespace Tienda.Services
     {
         Task CreateAsync(OrderDTO order);
 
-        void UpdateStock(Order order);
+        void UpdateStock(ProductOrder order);
     }
 }

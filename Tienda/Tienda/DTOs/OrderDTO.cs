@@ -7,6 +7,6 @@ namespace Tienda.DTOs
     {
         public int? Id { get; set; }
         public int CustomerId { get; set; }
-        public IEnumerable<int> Products { get; set; }
+        public IEnumerable<CartItem> Products { get; set; }
     }
 }

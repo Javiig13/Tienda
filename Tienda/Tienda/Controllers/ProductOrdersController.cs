@@ -18,6 +18,13 @@ namespace Tienda.Controllers
             _productOrdersService = productOrdersService;
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var productOrders = _dbContext.ProductOrder.ToList();
+            return Ok(productOrders);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]OrderDTO order)
         {
