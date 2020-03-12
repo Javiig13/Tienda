@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace Tienda
             Products = await _context.ProductOrder.Where(m => m.OrderId == id).Select(c => new ProductDetail()
             {
                 Amount = c.Amount,
-                Image = c.Product.Image,
+                Image = "data:image/png;base64, " + Convert.ToBase64String(c.Product.Image),
                 Name = c.Product.Name,
                 Price = c.Product.Price,
                 TotalPrice = c.Amount * c.Product.Price
@@ -49,5 +50,6 @@ namespace Tienda
     {
         public int Amount { get; set; }
         public decimal TotalPrice { get; set; }
+        public new string Image { get; set; }
     }
 }

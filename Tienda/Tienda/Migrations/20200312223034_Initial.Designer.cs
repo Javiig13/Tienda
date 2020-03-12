@@ -10,8 +10,8 @@ using Tienda.DataAccess;
 namespace Tienda.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200306212743_AddedRolesToUser")]
-    partial class AddedRolesToUser
+    [Migration("20200312223034_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,8 +51,7 @@ namespace Tienda.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -61,7 +60,14 @@ namespace Tienda.Migrations
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Customers");
                 });
@@ -117,6 +123,9 @@ namespace Tienda.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");

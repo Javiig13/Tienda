@@ -60,6 +60,11 @@ namespace Tienda.Controllers
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CompleteBuy()
         {
+            if (HttpContext.Session.GetString("UserSession") == null)
+            {
+                return RedirectToPage("/Login/Login");
+            }
+
             Customer customer = _repositoryCustomers.GetById(int.Parse(HttpContext.Session.GetString("UserSession")));
 
             if (customer == null)
@@ -75,7 +80,7 @@ namespace Tienda.Controllers
 
             await _productOrdersService.CreateAsync(order);
 
-            return Ok();
+            return RedirectToPage("/Orders/Index");
         }
     }
 }

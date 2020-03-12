@@ -13,8 +13,10 @@ namespace Tienda.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    Phone = table.Column<string>(nullable: true)
+                    Username = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    Password = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,11 +60,33 @@ namespace Tienda.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CartId = table.Column<string>(nullable: true),
+                    ProductId = table.Column<int>(nullable: true),
+                    Amount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductOrder",
                 columns: table => new
                 {
                     ProductId = table.Column<int>(nullable: false),
-                    OrderId = table.Column<int>(nullable: false)
+                    OrderId = table.Column<int>(nullable: false),
+                    Amount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,6 +106,17 @@ namespace Tienda.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CartItems_ProductId",
+                table: "CartItems",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_Username",
+                table: "Customers",
+                column: "Username",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
                 table: "Orders",
                 column: "CustomerId");
@@ -94,6 +129,9 @@ namespace Tienda.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CartItems");
+
             migrationBuilder.DropTable(
                 name: "ProductOrder");
 

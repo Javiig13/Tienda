@@ -11,19 +11,25 @@ namespace Tienda
     public class IndexModel : PageModel
     {
         private readonly DatabaseContext _context;
+        public List<OrderDetail> OrderDetails { get; set; }
 
         public IndexModel(DatabaseContext context)
         {
             _context = context;
+            OrderDetails = new List<OrderDetail>();
         }
 
-        public IList<OrderDetail> OrderDetails { get; set; }
 
         public async Task OnGetAsync()
         {
             List<OrderDetail> details = new List<OrderDetail>();
 
-            var userId = int.Parse(HttpContext.Session.GetString("UserSession"));
+            var userId = HttpContext.Session.GetString("UserSession") != null ? int.Parse(HttpContext.Session.GetString("UserSession")) : 0;
+
+            if (userId == 0)
+            {
+                return;
+            }
 
             var orders = await _context.ProductOrder
                 .Include(p => p.Order)
@@ -47,7 +53,7 @@ namespace Tienda
                 });
             });
 
-            OrderDetails = details;
+            OrderDetails = details.Count > 0 ? details : new List<OrderDetail>();
         }
     }
 

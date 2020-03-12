@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using Tienda.Models;
 using Tienda.Repositories;
 
@@ -14,6 +15,9 @@ namespace Tienda
             _repository = repository;
         }
 
+        [BindProperty]
+        public string Image { get; set; }
+
         public Product Product { get; set; }
 
         public IActionResult OnGet(int? id)
@@ -24,6 +28,7 @@ namespace Tienda
             }
 
             Product = _repository.GetById(id.Value);
+            Image = "data:image/png;base64, " + Convert.ToBase64String(Product.Image);
 
             if (Product == null)
             {

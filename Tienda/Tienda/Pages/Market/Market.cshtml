@@ -34,8 +34,7 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        <img src="https://i.picsum.photos/id/1005/100/100.jpg" alt="" />
-                        @Html.DisplayFor(modelItem => item.Image)
+                        <img src="@item.Image" alt="Product" style="max-width: 200px;" />
                     </td>
                     <td>
                         <button type="button" class="btn btn-outline-success" style="border: none" onclick="AddToCart(@item.Id)">
