@@ -49,7 +49,7 @@ namespace Tienda
                 {
                     OrderDate = r.OrderDate.Day + "/" + r.OrderDate.Month + "/" + r.OrderDate.Year,
                     OrderId = r.OrderId,
-                    OrderPrice = r.OrderPrice
+                    OrderPrice = _context.ProductOrder.Where(i => i.OrderId == r.OrderId).Sum(x => x.Amount * x.Product.Price)
                 });
             });
 

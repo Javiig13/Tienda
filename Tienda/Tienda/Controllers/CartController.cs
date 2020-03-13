@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Tienda.DTOs;
 using Tienda.Models;
@@ -79,6 +77,8 @@ namespace Tienda.Controllers
             };
 
             await _productOrdersService.CreateAsync(order);
+
+            _cart.ClearCart();
 
             return RedirectToPage("/Orders/Index");
         }

@@ -29,7 +29,7 @@ namespace Tienda
                 HttpContext.Session.SetString("UserSession", customerReceived.Id.ToString());
                 return RedirectToPage("../Market/Market");
             }
-            return BadRequest();
+            return RedirectToPage("../Error");
         }
     }
 }

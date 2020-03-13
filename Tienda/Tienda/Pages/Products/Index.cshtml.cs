@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tienda.Models;
@@ -13,13 +14,29 @@ namespace Tienda
         public IndexModelProduct(IRepository<Product> repository)
         {
             _repository = repository;
+            Product = new List<ProductWithImage>();
         }
 
-        public IList<Product> Product { get;set; }
+        public List<ProductWithImage> Product { get; set; }
 
         public void OnGet()
         {
-            Product = _repository.GetAll().ToList();
+            List<Product> products = _repository.GetAll().ToList();
+            products.ForEach(p =>
+            {
+                Product.Add(new ProductWithImage()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Image = "data:image/png;base64, " + Convert.ToBase64String(p.Image)
+                });
+            });
         }
+    }
+
+    public class ProductWithImage : Product
+    {
+        public new string Image { get; set; }
     }
 }

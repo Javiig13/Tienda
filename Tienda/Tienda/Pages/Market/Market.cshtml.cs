@@ -3,27 +3,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tienda.DataAccess;
 using Tienda.Models;
+using Tienda.Repositories;
 
 namespace Tienda
 {
     public class MarketModel : PageModel
     {
-        private readonly DatabaseContext _context;
+        private readonly IRepository<Product> _repository;
 
-        public MarketModel(DatabaseContext context)
+        public MarketModel(IRepository<Product> repository)
         {
-            _context = context;
+            _repository = repository;
             Product = new List<ProductWithImage>();
         }
 
         public List<ProductWithImage> Product { get; set; }
 
-        public async Task OnGetAsync()
+        public void OnGetAsync()
         {
-            List<Product> products = await _context.Products.ToListAsync();
+            List<Product> products = _repository.GetAll().Where(p => p.Stock > 0).ToList();
             products.ForEach(p =>
             {
                 Product.Add(new ProductWithImage()
@@ -35,10 +37,5 @@ namespace Tienda
                 });
             });
         }
-    }
-
-    public class ProductWithImage : Product
-    {
-        public new string Image { get; set; }
     }
 }

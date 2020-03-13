@@ -19,6 +19,13 @@ namespace Tienda
 
         public IActionResult OnGet(int? id)
         {
+            bool isLogged = Shared.UserIsLogged(HttpContext.Session);
+            bool isAdministrator = Shared.IsAdministrator(HttpContext.Session, _repository);
+
+            if (!isLogged || !isAdministrator)
+            {
+                return RedirectToPage("../WithoutPermissions");
+            }
             if (id == null)
             {
                 return NotFound();

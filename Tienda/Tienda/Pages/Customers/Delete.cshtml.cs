@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Tienda.Models;
 using Tienda.Repositories;
 
@@ -19,6 +23,14 @@ namespace Tienda
 
         public IActionResult OnGet(int? id)
         {
+            bool isLogged = Shared.UserIsLogged(HttpContext.Session);
+            bool isAdministrator = Shared.IsAdministrator(HttpContext.Session, _repository);
+
+            if (!isLogged || !isAdministrator)
+            {
+                return RedirectToPage("../WithoutPermissions");
+            }
+
             if (id == null)
             {
                 return NotFound();

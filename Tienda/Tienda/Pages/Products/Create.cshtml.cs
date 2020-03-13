@@ -13,16 +13,23 @@ namespace Tienda
     public class CreateModelProduct : PageModel
     {
         private readonly IRepository<Product> _repository;
-        private IHostingEnvironment _IhostingEnvironment;
+        private readonly IRepository<Customer> _repositoryCustomers;
 
-        public CreateModelProduct(IRepository<Product> repository, IHostingEnvironment IhostingEnvironment)
+        public CreateModelProduct(IRepository<Product> repository, IRepository<Customer> repositoryCustomers)
         {
             _repository = repository;
-            _IhostingEnvironment = IhostingEnvironment;
+            _repositoryCustomers = repositoryCustomers;
         }
 
         public IActionResult OnGet()
         {
+            bool isLogged = Shared.UserIsLogged(HttpContext.Session);
+            bool isAdministrator = Shared.IsAdministrator(HttpContext.Session, _repositoryCustomers);
+
+            if (!isLogged || !isAdministrator)
+            {
+                return RedirectToPage("../WithoutPermissions");
+            }
             return Page();
         }
 
@@ -38,18 +45,11 @@ namespace Tienda
                 return Page();
             }
 
-            Product.Image = await GetBytes(Upload);
+            Product.Image = await Shared.GetBytes(Upload);
 
             _repository.Create(Product);
 
             return RedirectToPage("./Index");
-        }
-
-        public static async Task<byte[]> GetBytes(IFormFile formFile)
-        {
-            using var memoryStream = new MemoryStream();
-            await formFile.CopyToAsync(memoryStream);
-            return memoryStream.ToArray();
         }
     }
 }
